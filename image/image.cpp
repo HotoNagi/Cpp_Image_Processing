@@ -72,3 +72,34 @@ ImageType Image::get_file_type(const char* filename) {
 	}
 	return PNG;
 }
+
+// グレースケール（単純な3チャンネルの平均）
+Image& Image::grayscale_avg() {
+	// (R+G+B)/3
+	if (channels < 3) {
+		printf("画像%pのチャネル数は3未満であり、すでにグレースケールだと思われます...", this);
+	}
+	else {
+		for (int i = 0; i < size; i += channels) {
+			//(r+g+b)/3
+			int gray = (data[i] + data[i + 1] + data[i + 2]) / 3;
+			memset(data + i, gray, 3);
+		}
+	}
+	return *this;
+}
+
+// グレースケール（割合をかけるやり方）
+Image& Image::grayscale_lum() {
+	if (channels < 3) {
+		printf("画像%pのチャネル数は3未満であり、すでにグレースケールだと思われます...", this);
+	}
+	else {
+		for (int i = 0; i < size; i += channels) {
+			// 0.2126*赤 + 0.7152 * 緑 + 0.0722 * 青
+			int gray = 0.2126 * data[i] + 0.7152 * data[i + 1] + 0.0722 * data[i + 2];
+			memset(data + i, gray, 3);
+		}
+	}
+	return *this;
+}
