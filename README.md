@@ -1,1 +1,2 @@
 # Cpp_Image_Processing
+OpenCVを使わないという縛りプレイ
